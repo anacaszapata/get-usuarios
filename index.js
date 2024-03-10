@@ -1,4 +1,5 @@
-// 2)Listado de 10 usuarios
+
+
 const express= require('express');
 const mongoose= require('mongoose');
 
@@ -77,24 +78,25 @@ app.use(express.json());
  app.get('/api/users/companies/:id', async (req, res) => {
     console.log(req.params.id);
     try {
-        const users_empresa = await empresas.find({ id: req.params.id });
+        const users_empresa = await empresas.find({id: parseInt(req.params.id) });
         res.json(users_empresa);
     } catch {
     }
 });
 //  5)Usuarios que sean de bangladesh
-app.get('/api/users/country/Bangladesh', async (req, res) => {
+app.get('/api/users/country/:country', async (req, res) => {
     try {
-        const usersBangladesh = await pais.find({ nacionalidad: 'Bangladesh' });
+        console.log(req.params.country);
+        const usersBangladesh = await User.find({ pais:req.params.country});
         res.json(usersBangladesh);
     } catch (error) {
     }
 });
 
 // 6)empresas que sean de la ciudad bangladesh
-app.get('/api/companies/city/Bangladesh', async (req, res) => {
+app.get('/api/companies/city/:city', async (req, res) => {
     try {
-        const empresasBangladesh = await Empresa.find({ ciudad: 'Bangladesh' });
+        const empresasBangladesh = await Empresa.find({ ciudad: req.params.city });
         res.json(empresasBangladesh);
     } catch (error) {
     }
@@ -108,7 +110,6 @@ app.listen(3000,function(){
     console.log('Servidor escuchando en el puerto 3000');
 });
 })
-
   
   
 
